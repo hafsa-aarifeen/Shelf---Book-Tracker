@@ -1,0 +1,6 @@
+{
+  "name": "Shelf",
+  "description": "A calm, personal book tracking web app for a single reader.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
