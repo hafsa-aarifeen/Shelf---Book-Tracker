@@ -1,16 +1,28 @@
-import React, { useState, useMemo } from 'react';
-import { Book } from '../types';
-import { ShoppingBag, Store, DollarSign, BookOpen, Search, Image as ImageIcon, Tag, Sparkles } from 'lucide-react';
-import { getStatusBadgeLabel, getStatusBadgeStyle } from '../utils/formatters';
+import React, { useState, useMemo } from "react";
+import { Book } from "../types";
+import {
+  ShoppingBag,
+  Store,
+  DollarSign,
+  BookOpen,
+  Search,
+  Image as ImageIcon,
+  Tag,
+  Sparkles,
+} from "lucide-react";
+import { getStatusBadgeLabel, getStatusBadgeStyle } from "../utils/formatters";
 
 interface StoresViewProps {
   books: Book[];
   onSelectBook: (book: Book) => void;
 }
 
-export const StoresView: React.FC<StoresViewProps> = ({ books, onSelectBook }) => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedStore, setSelectedStore] = useState<string>('all');
+export const StoresView: React.FC<StoresViewProps> = ({
+  books,
+  onSelectBook,
+}) => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedStore, setSelectedStore] = useState<string>("all");
 
   // Compute store groups and statistics
   const { storeGroups, totalSpent, storeNames } = useMemo(() => {
@@ -18,7 +30,8 @@ export const StoresView: React.FC<StoresViewProps> = ({ books, onSelectBook }) =
     let sumTotal = 0;
 
     books.forEach((b) => {
-      const storeName = b.store && b.store.trim() ? b.store.trim() : 'Unspecified / Other';
+      const storeName =
+        b.store && b.store.trim() ? b.store.trim() : "Unspecified / Other";
       if (!groups[storeName]) {
         groups[storeName] = { books: [], total: 0 };
       }
@@ -31,8 +44,8 @@ export const StoresView: React.FC<StoresViewProps> = ({ books, onSelectBook }) =
 
     // Sort store names with defined stores first, then Unspecified
     const names = Object.keys(groups).sort((a, b) => {
-      if (a === 'Unspecified / Other') return 1;
-      if (b === 'Unspecified / Other') return -1;
+      if (a === "Unspecified / Other") return 1;
+      if (b === "Unspecified / Other") return -1;
       return groups[b].books.length - groups[a].books.length;
     });
 
@@ -48,7 +61,7 @@ export const StoresView: React.FC<StoresViewProps> = ({ books, onSelectBook }) =
     const query = searchQuery.toLowerCase().trim();
     return storeNames
       .filter((storeName) => {
-        if (selectedStore !== 'all' && storeName !== selectedStore) {
+        if (selectedStore !== "all" && storeName !== selectedStore) {
           return false;
         }
         return true;
@@ -75,7 +88,7 @@ export const StoresView: React.FC<StoresViewProps> = ({ books, onSelectBook }) =
 
   // Count distinct recorded bookstores
   const recordedStoresCount = useMemo(() => {
-    return storeNames.filter((name) => name !== 'Unspecified / Other').length;
+    return storeNames.filter((name) => name !== "Unspecified / Other").length;
   }, [storeNames]);
 
   return (
@@ -91,7 +104,8 @@ export const StoresView: React.FC<StoresViewProps> = ({ books, onSelectBook }) =
               </h2>
             </div>
             <p className="text-xs text-[#857B6D] mt-1">
-              See where you bought your books, compare stores, and track total expenditures.
+              See where you bought your books, compare stores, and track total
+              expenditures.
             </p>
           </div>
         </div>
@@ -107,7 +121,8 @@ export const StoresView: React.FC<StoresViewProps> = ({ books, onSelectBook }) =
                 Bookstores Recorded
               </span>
               <span className="font-serif-title text-2xl font-bold text-[#3F382F]">
-                {recordedStoresCount} {recordedStoresCount === 1 ? 'store' : 'stores'}
+                {recordedStoresCount}{" "}
+                {recordedStoresCount === 1 ? "store" : "stores"}
               </span>
             </div>
           </div>
@@ -132,10 +147,10 @@ export const StoresView: React.FC<StoresViewProps> = ({ books, onSelectBook }) =
             </div>
             <div>
               <span className="text-xs font-semibold text-[#857B6D] block uppercase">
-                Total Library Books
+                Total Books
               </span>
               <span className="font-serif-title text-2xl font-bold text-[#3F382F]">
-                {books.length} {books.length === 1 ? 'book' : 'books'}
+                {books.length} {books.length === 1 ? "book" : "books"}
               </span>
             </div>
           </div>
@@ -148,11 +163,11 @@ export const StoresView: React.FC<StoresViewProps> = ({ books, onSelectBook }) =
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
           <button
             type="button"
-            onClick={() => setSelectedStore('all')}
+            onClick={() => setSelectedStore("all")}
             className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer ${
-              selectedStore === 'all'
-                ? 'bg-[#B98A5E] text-white shadow-xs'
-                : 'bg-[#FBF8F2] text-[#857B6D] hover:text-[#3F382F] border border-[#E4DBC9]'
+              selectedStore === "all"
+                ? "bg-[#B98A5E] text-white shadow-xs"
+                : "bg-[#FBF8F2] text-[#857B6D] hover:text-[#3F382F] border border-[#E4DBC9]"
             }`}
           >
             All Stores ({storeNames.length})
@@ -164,8 +179,8 @@ export const StoresView: React.FC<StoresViewProps> = ({ books, onSelectBook }) =
               onClick={() => setSelectedStore(name)}
               className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer ${
                 selectedStore === name
-                  ? 'bg-[#B98A5E] text-white shadow-xs'
-                  : 'bg-[#FBF8F2] text-[#857B6D] hover:text-[#3F382F] border border-[#E4DBC9]'
+                  ? "bg-[#B98A5E] text-white shadow-xs"
+                  : "bg-[#FBF8F2] text-[#857B6D] hover:text-[#3F382F] border border-[#E4DBC9]"
               }`}
             >
               {name} ({storeGroups[name]?.books.length || 0})
@@ -197,100 +212,103 @@ export const StoresView: React.FC<StoresViewProps> = ({ books, onSelectBook }) =
             No books found
           </h3>
           <p className="text-xs text-[#857B6D] mt-1">
-            Try adjusting your search query or add bookstore details to your books.
+            Try adjusting your search query or add bookstore details to your
+            books.
           </p>
         </div>
       ) : (
         <div className="space-y-6">
-          {filteredStores.map(({ storeName, books: storeBooks, total, totalCount }) => (
-            <div
-              key={storeName}
-              className="bg-[#FBF8F2] border border-[#E4DBC9] rounded-2xl p-5 shadow-xs space-y-4"
-            >
-              {/* Store Section Header */}
-              <div className="flex items-center justify-between pb-3 border-b border-[#E4DBC9]">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-[#B98A5E]/15 flex items-center justify-center text-[#B98A5E]">
-                    <Store size={18} />
-                  </div>
-                  <div>
-                    <h3 className="font-serif-title text-lg font-bold text-[#3F382F] flex items-center gap-2">
-                      <span>{storeName}</span>
-                      <span className="text-xs font-normal text-[#857B6D] bg-[#F4EEE3] px-2 py-0.5 rounded-full border border-[#E4DBC9]">
-                        {totalCount} {totalCount === 1 ? 'book' : 'books'}
-                      </span>
-                    </h3>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  {total > 0 && (
-                    <div className="text-right">
-                      <span className="text-[10px] text-[#857B6D] block uppercase font-semibold">
-                        Total Spent Here
-                      </span>
-                      <span className="font-serif-title font-bold text-base text-[#4F5D42]">
-                        ${total.toFixed(2)}
-                      </span>
+          {filteredStores.map(
+            ({ storeName, books: storeBooks, total, totalCount }) => (
+              <div
+                key={storeName}
+                className="bg-[#FBF8F2] border border-[#E4DBC9] rounded-2xl p-5 shadow-xs space-y-4"
+              >
+                {/* Store Section Header */}
+                <div className="flex items-center justify-between pb-3 border-b border-[#E4DBC9]">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-lg bg-[#B98A5E]/15 flex items-center justify-center text-[#B98A5E]">
+                      <Store size={18} />
                     </div>
-                  )}
-                </div>
-              </div>
+                    <div>
+                      <h3 className="font-serif-title text-lg font-bold text-[#3F382F] flex items-center gap-2">
+                        <span>{storeName}</span>
+                        <span className="text-xs font-normal text-[#857B6D] bg-[#F4EEE3] px-2 py-0.5 rounded-full border border-[#E4DBC9]">
+                          {totalCount} {totalCount === 1 ? "book" : "books"}
+                        </span>
+                      </h3>
+                    </div>
+                  </div>
 
-              {/* Books in this Store Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                {storeBooks.map((book) => {
-                  const lastSession = book.sessions[book.sessions.length - 1];
-                  const status = lastSession ? lastSession.status : 'reading';
-
-                  return (
-                    <div
-                      key={book.id}
-                      onClick={() => onSelectBook(book)}
-                      className="group bg-[#F4EEE3]/60 hover:bg-[#F4EEE3] border border-[#E4DBC9] rounded-xl p-3 flex items-center gap-3 transition-all cursor-pointer shadow-2xs hover:shadow-xs"
-                    >
-                      {/* Cover thumbnail */}
-                      <div className="w-12 h-16 bg-[#D9D1C3] rounded-md overflow-hidden flex-shrink-0 border border-[#E4DBC9] flex items-center justify-center">
-                        {book.coverUrl ? (
-                          <img
-                            src={book.coverUrl}
-                            alt={book.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                          />
-                        ) : (
-                          <ImageIcon size={18} className="text-[#A79D8C]" />
-                        )}
+                  <div className="flex items-center gap-3">
+                    {total > 0 && (
+                      <div className="text-right">
+                        <span className="text-[10px] text-[#857B6D] block uppercase font-semibold">
+                          Total Spent Here
+                        </span>
+                        <span className="font-serif-title font-bold text-base text-[#4F5D42]">
+                          ${total.toFixed(2)}
+                        </span>
                       </div>
+                    )}
+                  </div>
+                </div>
 
-                      {/* Info */}
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between gap-1">
-                          <span
-                            className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-semibold ${getStatusBadgeStyle(
-                              status
-                            )}`}
-                          >
-                            {getStatusBadgeLabel(status)}
-                          </span>
-                          {book.price !== undefined && !isNaN(book.price) && (
-                            <span className="text-xs font-bold text-[#4F5D42]">
-                              ${book.price.toFixed(2)}
-                            </span>
+                {/* Books in this Store Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                  {storeBooks.map((book) => {
+                    const lastSession = book.sessions[book.sessions.length - 1];
+                    const status = lastSession ? lastSession.status : "reading";
+
+                    return (
+                      <div
+                        key={book.id}
+                        onClick={() => onSelectBook(book)}
+                        className="group bg-[#F4EEE3]/60 hover:bg-[#F4EEE3] border border-[#E4DBC9] rounded-xl p-3 flex items-center gap-3 transition-all cursor-pointer shadow-2xs hover:shadow-xs"
+                      >
+                        {/* Cover thumbnail */}
+                        <div className="w-12 h-16 bg-[#D9D1C3] rounded-md overflow-hidden flex-shrink-0 border border-[#E4DBC9] flex items-center justify-center">
+                          {book.coverUrl ? (
+                            <img
+                              src={book.coverUrl}
+                              alt={book.title}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                            />
+                          ) : (
+                            <ImageIcon size={18} className="text-[#A79D8C]" />
                           )}
                         </div>
-                        <h4 className="font-serif-title text-sm font-bold text-[#3F382F] truncate mt-1">
-                          {book.title}
-                        </h4>
-                        <p className="text-xs text-[#857B6D] truncate">
-                          {book.author}
-                        </p>
+
+                        {/* Info */}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between gap-1">
+                            <span
+                              className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-semibold ${getStatusBadgeStyle(
+                                status,
+                              )}`}
+                            >
+                              {getStatusBadgeLabel(status)}
+                            </span>
+                            {book.price !== undefined && !isNaN(book.price) && (
+                              <span className="text-xs font-bold text-[#4F5D42]">
+                                ${book.price.toFixed(2)}
+                              </span>
+                            )}
+                          </div>
+                          <h4 className="font-serif-title text-sm font-bold text-[#3F382F] truncate mt-1">
+                            {book.title}
+                          </h4>
+                          <p className="text-xs text-[#857B6D] truncate">
+                            {book.author}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          ))}
+            ),
+          )}
         </div>
       )}
     </div>
