@@ -139,6 +139,7 @@ export default function App() {
               books={books}
               onOpenQuoteCard={(q, b) => setSelectedQuoteForCard({ quote: q, book: b })}
               onSelectBook={(b) => setSelectedBookForDetail(b)}
+              onUpdateBook={handleUpdateBook}
             />
           )}
 
