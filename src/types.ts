@@ -27,6 +27,7 @@ export interface Book {
   title: string;
   author: string;
   coverUrl?: string;
+  galleryImages?: string[]; // photos of favorite lines, book notes, etc.
   pageCount?: number;
   tags: string[];
   notes?: string;
