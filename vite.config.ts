@@ -5,7 +5,7 @@ import { defineConfig } from "vite";
 
 export default defineConfig(() => {
   return {
-    base: "/Shelf---Book-Tracker/",
+    base: "/Shelf/",
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
