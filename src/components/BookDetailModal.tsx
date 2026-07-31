@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Calendar, Plus, Trash2, Edit2, Image as ImageIcon, Quote as QuoteIcon, Sparkles, Check, Upload, Camera, ExternalLink, ZoomIn, AlertTriangle } from 'lucide-react';
+import { X, Calendar, Plus, Trash2, Edit2, Image as ImageIcon, Quote as QuoteIcon, Sparkles, Check, Upload, Camera, ExternalLink, ZoomIn, AlertTriangle, ShoppingBag, Store } from 'lucide-react';
 import { Book, ReadingStatus, ReadingSession, Quote, ApproxProgress } from '../types';
 import { StarRating } from './StarRating';
 import { formatDate, formatTimeAgo, getStatusBadgeStyle, getStatusBadgeLabel } from '../utils/formatters';
@@ -70,6 +70,10 @@ export const BookDetailModal: React.FC<BookDetailModalProps> = ({
   // Delete confirmation state
   const [showDeleteBookModal, setShowDeleteBookModal] = useState(false);
 
+  // Store & Price state
+  const [store, setStore] = useState(book.store || '');
+  const [price, setPrice] = useState(book.price !== undefined ? String(book.price) : '');
+
   // Sync state when book changes
   useEffect(() => {
     const sess = book.sessions[book.sessions.length - 1] || {
@@ -88,6 +92,8 @@ export const BookDetailModal: React.FC<BookDetailModalProps> = ({
     setTags(book.tags || []);
     setQuotes(book.quotes || []);
     setGallery(book.galleryImages || []);
+    setStore(book.store || '');
+    setPrice(book.price !== undefined ? String(book.price) : '');
     setShowDeleteBookModal(false);
   }, [book]);
 
@@ -105,6 +111,8 @@ export const BookDetailModal: React.FC<BookDetailModalProps> = ({
     quotes?: Quote[];
     coverUrl?: string;
     galleryImages?: string[];
+    store?: string;
+    price?: number;
   }) => {
     const updatedStatus = overrides.status ?? status;
     const updatedStart = overrides.startDate !== undefined ? overrides.startDate : startDate;
@@ -118,6 +126,8 @@ export const BookDetailModal: React.FC<BookDetailModalProps> = ({
     const updatedQuotes = overrides.quotes ?? quotes;
     const updatedCoverUrl = overrides.coverUrl !== undefined ? overrides.coverUrl : book.coverUrl;
     const updatedGallery = overrides.galleryImages !== undefined ? overrides.galleryImages : (book.galleryImages || []);
+    const updatedStore = overrides.store !== undefined ? overrides.store : book.store;
+    const updatedPrice = overrides.price !== undefined ? overrides.price : book.price;
 
     const updatedSessions = [...book.sessions];
     const lastSessionIndex = updatedSessions.length > 0 ? updatedSessions.length - 1 : 0;
@@ -141,6 +151,8 @@ export const BookDetailModal: React.FC<BookDetailModalProps> = ({
       tags: updatedTags,
       quotes: updatedQuotes,
       sessions: updatedSessions,
+      store: updatedStore,
+      price: updatedPrice,
     };
 
     onUpdateBook(updatedBook);
@@ -445,6 +457,47 @@ export const BookDetailModal: React.FC<BookDetailModalProps> = ({
                   }}
                   size={20}
                 />
+              </div>
+
+              {/* Bookstore & Purchase Info */}
+              <div className="pt-2.5 border-t border-[#E4DBC9]">
+                <label className="text-[11px] font-semibold text-[#857B6D] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                  <ShoppingBag size={13} className="text-[#B98A5E]" />
+                  <span>Where bought & Price</span>
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={store}
+                      onChange={(e) => setStore(e.target.value)}
+                      onBlur={() => {
+                        saveChanges({ store: store.trim() || undefined });
+                      }}
+                      placeholder="Bookstore / Store (e.g. Kinokuniya)"
+                      className="w-full bg-[#F4EEE3] border border-[#E4DBC9] rounded-xl px-3 py-1.5 text-xs text-[#3F382F] placeholder-[#A79D8C] focus:outline-none focus:border-[#B98A5E]"
+                    />
+                  </div>
+                  <div className="relative flex items-center">
+                    <span className="absolute left-3 text-xs font-semibold text-[#857B6D]">
+                      $
+                    </span>
+                    <input
+                      type="number"
+                      step="0.01"
+                      value={price}
+                      onChange={(e) => setPrice(e.target.value)}
+                      onBlur={() => {
+                        const num = parseFloat(price);
+                        saveChanges({
+                          price: !isNaN(num) ? num : undefined,
+                        });
+                      }}
+                      placeholder="Price (e.g. 19.99)"
+                      className="w-full bg-[#F4EEE3] border border-[#E4DBC9] rounded-xl pl-7 pr-3 py-1.5 text-xs text-[#3F382F] placeholder-[#A79D8C] focus:outline-none focus:border-[#B98A5E]"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

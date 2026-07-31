@@ -29,6 +29,8 @@ export const AddBookModal: React.FC<AddBookModalProps> = ({
   const [manualCoverUrl, setManualCoverUrl] = useState('');
   const [manualPageCount, setManualPageCount] = useState('');
   const [manualTags, setManualTags] = useState('');
+  const [manualStore, setManualStore] = useState('');
+  const [manualPrice, setManualPrice] = useState('');
 
   // Common shelf selection
   const [initialStatus, setInitialStatus] = useState<ReadingStatus>('reading');
@@ -75,6 +77,8 @@ export const AddBookModal: React.FC<AddBookModalProps> = ({
         author: manualAuthor.trim() || 'Unknown Author',
         coverUrl: manualCoverUrl.trim() || undefined,
         pageCount: manualPageCount ? parseInt(manualPageCount, 10) : undefined,
+        store: manualStore.trim() || undefined,
+        price: manualPrice ? parseFloat(manualPrice) : undefined,
         tags: tagsArray,
       },
       initialStatus
@@ -93,6 +97,8 @@ export const AddBookModal: React.FC<AddBookModalProps> = ({
     setManualCoverUrl('');
     setManualPageCount('');
     setManualTags('');
+    setManualStore('');
+    setManualPrice('');
     setInitialStatus('reading');
   };
 
@@ -320,6 +326,35 @@ export const AddBookModal: React.FC<AddBookModalProps> = ({
                     value={manualTags}
                     onChange={(e) => setManualTags(e.target.value)}
                     placeholder="fiction, mystery"
+                    className="w-full bg-[#F4EEE3] border border-[#E4DBC9] rounded-xl px-3 py-2 text-sm text-[#3F382F] focus:outline-none focus:border-[#B98A5E]"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-[#3F382F] mb-1">
+                    Bookstore / Source (Optional)
+                  </label>
+                  <input
+                    type="text"
+                    value={manualStore}
+                    onChange={(e) => setManualStore(e.target.value)}
+                    placeholder="e.g. Kinokuniya"
+                    className="w-full bg-[#F4EEE3] border border-[#E4DBC9] rounded-xl px-3 py-2 text-sm text-[#3F382F] focus:outline-none focus:border-[#B98A5E]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-[#3F382F] mb-1">
+                    Price (Optional)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={manualPrice}
+                    onChange={(e) => setManualPrice(e.target.value)}
+                    placeholder="e.g. 19.99"
                     className="w-full bg-[#F4EEE3] border border-[#E4DBC9] rounded-xl px-3 py-2 text-sm text-[#3F382F] focus:outline-none focus:border-[#B98A5E]"
                   />
                 </div>

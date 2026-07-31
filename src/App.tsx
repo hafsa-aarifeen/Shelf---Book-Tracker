@@ -6,6 +6,7 @@ import { HomeView } from './components/HomeView';
 import { LibraryView } from './components/LibraryView';
 import { QuotesView } from './components/QuotesView';
 import { StatsView } from './components/StatsView';
+import { StoresView } from './components/StoresView';
 import { SettingsModal } from './components/SettingsModal';
 import { AddBookModal } from './components/AddBookModal';
 import { BookDetailModal } from './components/BookDetailModal';
@@ -140,6 +141,13 @@ export default function App() {
               onOpenQuoteCard={(q, b) => setSelectedQuoteForCard({ quote: q, book: b })}
               onSelectBook={(b) => setSelectedBookForDetail(b)}
               onUpdateBook={handleUpdateBook}
+            />
+          )}
+
+          {currentTab === 'stores' && (
+            <StoresView
+              books={books}
+              onSelectBook={(b) => setSelectedBookForDetail(b)}
             />
           )}
 

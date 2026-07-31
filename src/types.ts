@@ -29,6 +29,8 @@ export interface Book {
   coverUrl?: string;
   galleryImages?: string[]; // photos of favorite lines, book notes, etc.
   pageCount?: number;
+  store?: string; // bookstore or source where the book was bought
+  price?: number; // price paid for the book
   tags: string[];
   notes?: string;
   createdAt: string;

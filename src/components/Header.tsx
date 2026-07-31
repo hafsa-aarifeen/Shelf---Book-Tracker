@@ -1,5 +1,5 @@
 import React from 'react';
-import { Plus, BookOpen, Library, Quote as QuoteIcon, BarChart3, Settings } from 'lucide-react';
+import { Plus, BookOpen, Library, Quote as QuoteIcon, BarChart3, Settings, ShoppingBag } from 'lucide-react';
 
 interface HeaderProps {
   currentTab: string;
@@ -16,6 +16,7 @@ export const Header: React.FC<HeaderProps> = ({
     { id: 'home', label: 'Home', icon: BookOpen },
     { id: 'library', label: 'Library', icon: Library },
     { id: 'quotes', label: 'Quotes', icon: QuoteIcon },
+    { id: 'stores', label: 'Bookstores', icon: ShoppingBag },
     { id: 'stats', label: 'Stats', icon: BarChart3 },
     { id: 'settings', label: 'Export / Import', icon: Settings },
   ];
